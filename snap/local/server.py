@@ -27,7 +27,6 @@ def LoopTemplate(s, ctx):
        inside as a subtemplate with the next item in the iterable
        as its context."""
     def loophandler(m):
-        print("loophandler", m)
         md = m.groupdict()
         return "".join([LoopTemplate(md["content"], val)
                         for val in ctx[md["var"]]])
