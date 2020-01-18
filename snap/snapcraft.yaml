@@ -12,13 +12,8 @@ parts:
   pwbm:
     source: snap/local
     plugin: dump
-  monolith:
-    plugin: rust
-    source: https://github.com/Y2Z/monolith.git
-    source-tag: "v2.1.1"
-    build-packages:
-      - libssl-dev
-      - pkg-config
+    stage-snaps:
+      - monolith/latest/stable
 
 apps:
   pwbm:
