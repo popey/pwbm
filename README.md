@@ -51,11 +51,16 @@ $ tree ~/snap/pwbm/common/archive/
 
 Browse the files in the `archive/` folder and open them in a browse to view.
 
+A convenience webserver has been added. It can be launched as follows, and presents the archive directory on port 8076.
+
+`pwbm.server`
+
+Visit `http://localhost:8076/` to view the snapshots.
 
 ## TODO
 
   - [ ] - More error checking
-  - [ ] - Add a webserver to make it more wayback-machine-like (and easy to use)
+  - [x] - Add a webserver to make it more wayback-machine-like (and easy to use)
   - [ ] - Add option for manual pruning of archives
   - [ ] - Add option to remove URLs
   - [ ] - Add option to report on disk usage / number of snapshots / other stats
