@@ -94,7 +94,7 @@ update(){
 		FILENAME=$ARCHIVEDIR/$hostport/$escaped_path/$DATESTAMP-index.html
 		if monolith -s "$u" > "$FILENAME"
 		then
-			echo -e "$(date) $u saved to $FILENAME" | tee -a "$LOG"
+			echo -e "$(date) Success saving $u to $FILENAME" | tee -a "$LOG"
 		else
 			echo -e "$(date) Error saving $u to $FILENAME" | tee -a "$LOG"
 		fi
