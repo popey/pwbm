@@ -27,3 +27,7 @@ apps:
       - home
       - network
       - removable-media
+  server:
+    command: server.py
+    plugs:
+      - network-bind
