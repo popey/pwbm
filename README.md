@@ -8,6 +8,8 @@ Note: Unlike the "real" wayback machine, `pwbm` does not seek to crawl the entir
 
 ## Installation
 
+[![Get it from the Snap Store](https://snapcraft.io/static/images/badges/en/snap-store-black.svg)](https://snapcraft.io/pwbm)
+
 `pwbm` is available as a snap in the Snap Store. The snap bundles everything needed to function, including `monolith`. Installation on Linux is as follows:
 
 `snap install pwbm`
