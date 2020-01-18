@@ -79,9 +79,9 @@ update(){
 	# Check urls list has at least one url
 	if grep --silent ^http "$URLS"; then
   	  # Loop through urls
-	  echo -e "$(date) \nStart:" | tee -a "$LOG"
+	  echo -e "$(date) Start processing URLs" | tee -a "$LOG"
 	  while read u; do
-		echo -e "$(date) \nProcessing: $u" | tee -a "$LOG"
+		echo -e "$(date) Processing: $u" | tee -a "$LOG"
 		proto="$(echo "$u" | grep :// | sed -e's,^\(.*://\).*,\1,g')"
 		url=$(echo "$u" | sed -e s,"$proto",,g )
 		user="$(echo "$url" | grep @ | cut -d@ -f1)"
@@ -99,7 +99,7 @@ update(){
 			echo -e "$(date) Error saving $u to $FILENAME" | tee -a "$LOG"
 		fi
 	  done < $URLS
-	  echo -e "$(date) \nFinish:" | tee -a "$LOG"
+	  echo -e "$(date) Finished processing URLs" | tee -a "$LOG"
 	fi
 }
 
