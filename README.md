@@ -52,8 +52,8 @@ Browse the files in the `archive/` folder and open them in a browse to view.
 
 ## TODO
 
-[ ] - More error checking
-[ ] - Add a webserver to make it more wayback-machine-like (and easy to use)
-[ ] - Add option for manual pruning of archives
-[ ] - Add option to remove URLs
-[ ] - Add option to report on disk usage / number of snapshots / other stats
+  - [ ] - More error checking
+  - [ ] - Add a webserver to make it more wayback-machine-like (and easy to use)
+  - [ ] - Add option for manual pruning of archives
+  - [ ] - Add option to remove URLs
+  - [ ] - Add option to report on disk usage / number of snapshots / other stats
