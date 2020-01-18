@@ -28,6 +28,8 @@ Run `pwbm` to start a snapshot of every page.
 
 `pwbm`
 
+Results are stored in `$SNAP_USER_COMMON/archive` if instaled from a snap, or `./archive` if run outside of a snap. 
+
 ### How it works
 
 It's super basic. `pwbm` just iterates through a list of URLs in a file, spawning `monolith` and saving the results in a datestamped file in a folder specific to the host and path. 
@@ -40,3 +42,16 @@ $ tree ~/snap/pwbm/common/archive/
 
 1 directory, 1 file
 ```
+
+### Viewing results
+
+Browse the files in the `archive/` folder and open them in a browse to view.
+
+
+# TODO
+
+[ ] - More error checking
+[ ] - Add a webserver to make it more wayback-machine-like (and easy to use)
+[ ] - Add option for manual pruning of archives
+[ ] - Add option to remove URLs
+[ ] - Add option to report on disk usage / number of snapshots / other stats
