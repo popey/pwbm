@@ -1,0 +1,29 @@
+name: pwbm
+base: core18 
+version: "0.1"
+summary: Personal WayBack Machine
+description: |
+  Simple archiver for taking snapshots of web pages for later perusal
+
+grade: stable
+confinement: strict
+
+parts:
+  pwbm:
+    source: snap/local
+    plugin: dump
+  monolith:
+    plugin: rust
+    source: https://github.com/Y2Z/monolith.git
+    source-tag: "v2.1.1"
+    build-packages:
+      - libssl-dev
+      - pkg-config
+
+apps:
+  pwbm:
+    command: pwbm
+    plugs:
+      - home
+      - network
+      - removable-media
