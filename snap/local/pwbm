@@ -13,7 +13,7 @@ ARCHIVEFILE="archive"
 LOGFILE="log.txt"
 
 # Check if we are in a snap
-if [ ! -z "$SNAP" ]; then
+if [ -n "$SNAP" ]; then
 	# We are in a snap
 	DATADIR=$SNAP_USER_COMMON
 else
@@ -27,24 +27,23 @@ OPT=$1
 
 setup() {
 	# Check if archive directory exists
-	if [ ! -d $ARCHIVEDIR ]; then
-		mkdir -p $ARCHIVEDIR
+	if [ ! -d "$ARCHIVEDIR" ]; then
+		mkdir -p "$ARCHIVEDIR"
 	fi
 	# Check if list of URLs exists
 	if [ ! -f "$URLS" ]; then
-		touch $URLS
+		touch "$URLS"
 	fi
 }
 
 addurl() {
 	# Check if it's already in the list
-	grep --silent "$OPT" $URLS
-	if [ "$?" == "0" ]; then
-		echo -e "$(date) \nAlready in database: $OPT" | tee -a $LOG
+	if grep --silent "$OPT" "$URLS"; then
+		echo -e "$(date) \nAlready in database: $OPT" | tee -a "$LOG"
 		exit 2
 	else
-		echo $OPT >> $URLS
-		echo -e "$(date) \nAdded URL: $OPT" | tee -a $LOG
+		echo "$OPT" >> "$URLS"
+		echo -e "$(date) \nAdded URL: $OPT" | tee -a "$LOG"
 		exit 0
 	fi
 }
@@ -58,19 +57,19 @@ show_help() {
 
 parse_input() {
 	# Check if they added a new url
-	if [ ! -z "$OPT" ]; then 
+	if [ -n "$OPT" ]; then 
 		# Show help if they asked for it
 		if [ a"$OPT" == "a-h" -o a"$OPT" == "a--help" ]; then
 			show_help
 			exit 0
 		fi
 		# Check if it really is a valid url
-		echo $OPT | grep --silent ^http 
+		echo "$OPT" | grep --silent ^http 
 		VALIDURL=$?
 		if [ "$VALIDURL" == "0" ]; then
-			addurl $OPT
+			addurl "$OPT"
 		else
-			echo -e "$(date) \nInvalid URL: $OPT" | tee -a $LOG
+			echo -e "$(date) \nInvalid URL: $OPT" | tee -a "$LOG"
 			exit 1
 		fi
 	fi
@@ -78,29 +77,29 @@ parse_input() {
 
 update(){
 	# Check urls list has at least one url
-	grep --silent ^http $URLS
-	if [ "$?" == "0" ]; then
-	# Loop through urls
-	echo -e "$(date) \nStart:" | tee -a $LOG
-	while read u; do
-		echo -e "$(date) \nProcessing: $u" | tee -a $LOG
-		proto="$(echo $u | grep :// | sed -e's,^\(.*://\).*,\1,g')"
-		url=$(echo $u | sed -e s,$proto,,g )
-		hostport=$(echo $url | sed -e s,$user@,,g | cut -d/ -f1)
-		host="$(echo $hostport | sed -e 's,:.*,,g')"
-		path="$(echo $url | grep / | cut -d/ -f2-)"
-		escaped_path=$(echo $path | sed 's,/$,,;s,/,__,g')
+	if grep --silent ^http "$URLS"; then
+  	  # Loop through urls
+	  echo -e "$(date) Start processing URLs" | tee -a "$LOG"
+	  while read u; do
+		echo -e "$(date) Processing: $u" | tee -a "$LOG"
+		proto="$(echo "$u" | grep :// | sed -e's,^\(.*://\).*,\1,g')"
+		url=$(echo "$u" | sed -e s,"$proto",,g )
+		user="$(echo "$url" | grep @ | cut -d@ -f1)"
+		hostport=$(echo "$url" | sed -e s,"$user"@,,g | cut -d/ -f1)
+		#host="$(echo "$hostport" | sed -e 's,:.*,,g')"
+		path="$(echo "$url" | grep / | cut -d/ -f2-)"
+		escaped_path=$(echo "$path" | sed 's,/$,,;s,/,__,g')
 		DATESTAMP="$(date --iso-8601=seconds)"
-		mkdir -p $ARCHIVEDIR/$hostport/$escaped_path/
+		mkdir -p "$ARCHIVEDIR"/"$hostport"/"$escaped_path"/
 		FILENAME=$ARCHIVEDIR/$hostport/$escaped_path/$DATESTAMP-index.html
-		monolith -s $u > $FILENAME
-		if [ "$?" == 0 ]; then
-			echo -e "$(date) $u saved to $FILENAME" | tee -a $LOG
+		if monolith -s "$u" > "$FILENAME"
+		then
+			echo -e "$(date) Success saving $u to $FILENAME" | tee -a "$LOG"
 		else
-			echo -e "$(date) Error saving $u to $FILENAME" | tee -a $LOG
+			echo -e "$(date) Error saving $u to $FILENAME" | tee -a "$LOG"
 		fi
-	done < $URLS
-	echo -e "$(date) \nFinish:" | tee -a $LOG
+	  done < $URLS
+	  echo -e "$(date) Finished processing URLs" | tee -a "$LOG"
 	fi
 }
 
