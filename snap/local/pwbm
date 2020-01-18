@@ -49,9 +49,21 @@ addurl() {
 	fi
 }
 
+show_help() {
+	echo "Usage: pwbm [url]"
+	echo ""
+	echo "Provide a URL to add that URL to the list of URLs for fetching."
+	echo "Run as \"pwbm\" to fetch all URLs currently in the list."
+}
+
 parse_input() {
 	# Check if they added a new url
 	if [ ! -z "$OPT" ]; then 
+		# Show help if they asked for it
+		if [ a"$OPT" == "a-h" -o a"$OPT" == "a--help" ]; then
+			show_help
+			exit 0
+		fi
 		# Check if it really is a valid url
 		echo $OPT | grep --silent ^http 
 		VALIDURL=$?
