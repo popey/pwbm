@@ -95,6 +95,12 @@ update(){
 		if monolith -s "$u" > "$FILENAME"
 		then
 			echo -e "$(date) Success saving $u to $FILENAME" | tee -a "$LOG"
+			if wkhtmltoimage  --custom-header Connection Keep-Alive,Upgrade --custom-header-propagation --debug-javascript --javascript-delay 8000 $ARCHIVEDIR/$hostport/$escaped_path/$DATESTAMP-index.html $ARCHIVEDIR/$hostport/$escaped_path/$DATESTAMP-index.png
+			then
+				echo -e "$(date) Success converting $ARCHIVEDIR/$hostport/$escaped_path/$DATESTAMP-index.html $ARCHIVEDIR/$hostport/$escaped_path/$DATESTAMP-index.png"
+			else
+				echo -e "$(date) Failed converting $ARCHIVEDIR/$hostport/$escaped_path/$DATESTAMP-index.html $ARCHIVEDIR/$hostport/$escaped_path/$DATESTAMP-index.png"
+			fi
 		else
 			echo -e "$(date) Error saving $u to $FILENAME" | tee -a "$LOG"
 		fi
